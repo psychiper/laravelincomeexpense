@@ -26,7 +26,7 @@
                 <td>{{ $student->TransactionDate }}</td>
                 <td>{{ $student->type}}</td>
                 <td>{{ $student->TransactionName }}</td>
-                <td>{{ $student->Amount }}</td>
+                <td>{{ number_format($student->Amount, 2) }}</td>
                 <td>
                     <a href="{{ route('edit', $student->id) }}" class="btn btn-warning btn-sm">edit</a>
 
@@ -37,5 +37,24 @@
             @endforeach
         </tbody>
     </table>
+
+    <table class="table">
+        <thead class="black white-text">
+    <tr>
+        <th scope="col" width="15%"></th>
+        <th scope="col" width="30%">รวมรายรับ</th>
+        <th scope="col" width="30%">รวมรายจ่าย</th>
+        <th scope="col" width="30%">ยอดคงเหลือ</th>
+    </tr>
+        </thead>
+        <tbody>
+    <tr>
+        <th scope="row"></th>
+        <td>{{ $totalincome }}</td>
+        <td>{{ $totalexpense }}</td>
+        <td>{{ $totalbalance }}</td>
+    </tr>
+        </tbody>
+</table>
 </div>
 @endsection

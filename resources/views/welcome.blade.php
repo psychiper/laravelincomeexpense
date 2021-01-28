@@ -25,7 +25,7 @@
                 <th scope="row">{{ $student->id }}</th>
                 <td>{{ $student->type}}</td>
                 <td>{{ $student->TransactionName }}</td>
-                <td>{{ $student->Amount }}</td>
+                <td>{{ number_format($student->Amount, 2) }}</td>
                 <td>{{ $student->TransactionDate }}</td>
                 <td>
                     <a href="{{ route('edit', $student->id) }}" class="btn btn-warning btn-sm">edit</a>

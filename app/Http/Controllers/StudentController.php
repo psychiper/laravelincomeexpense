@@ -7,7 +7,7 @@ use App\Student;
 
 class StudentController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $students = Student::paginate(10);
     	return view('welcome', compact('students'));
@@ -32,8 +32,29 @@ class StudentController extends Controller
         ->whereBetween('TransactionDate', [$fulldate.'-01', $fulldate.'-31'])
         ->orderBy('TransactionDate', 'ASC')
         ->get();
-        //dd($students);
-    	return view('searchresult', compact('students'));
+
+        $totalincome = Student::select('Amount')
+        ->where('type', 'income')
+        ->whereBetween('TransactionDate', [$fulldate.'-01', $fulldate.'-31'])
+        ->orderBy('TransactionDate', 'ASC')
+        ->sum('Amount');
+
+        $totalexpense = Student::select('Amount')
+        ->where('type', 'expense')
+        ->whereBetween('TransactionDate', [$fulldate.'-01', $fulldate.'-31'])
+        ->orderBy('TransactionDate', 'ASC')
+        ->sum('Amount');
+
+        $totalbalance = $totalincome-$totalexpense;
+        $totalbalance = number_format($totalbalance, 2);
+
+        $totalincome = number_format($totalincome, 2);
+
+        $totalexpense = number_format($totalexpense, 2);
+
+        //dd($totalincome);
+
+    	return view('searchresult', compact('students', 'totalincome', 'totalexpense', 'totalbalance'));
     }
 
 
@@ -50,7 +71,7 @@ class StudentController extends Controller
     	$student = new Student;
     	$student->type = $request->type;
     	$student->TransactionName = $request->TransactionName;
-        $student->Amount = number_format($request->Amount, 2);
+        $student->Amount = number_format($request->Amount, 2, '.', '');
         $student->TransactionDate = $request->TransactionDate;
     	$student->save();
     	return redirect(route('home'))->with('successMsg','add data Successfully ');
@@ -76,7 +97,7 @@ class StudentController extends Controller
     	$student =  Student::find($id);
     	$student->type = $request->type;
     	$student->TransactionName = $request->TransactionName;
-        $student->Amount = number_format($request->Amount, 2);
+        $student->Amount = number_format($request->Amount, 2, '.', '');
         $student->TransactionDate = $request->TransactionDate;
     	$student->save();
     	return redirect(route('home'))->with('successMsg','Update data Successfully ');

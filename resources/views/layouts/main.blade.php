@@ -51,19 +51,12 @@
     <script>
         $('.datepicker').pickadate({
           // Escape any “rule” characters with an exclamation mark (!).
-          format: 'yyyy-mm-dd',
-          viewMode: "months",
-    minViewMode: "months"
+          format: 'yyyy-mm-dd'
           })
-      </script>
 
-        <!-- Datepicker -->
-    <script>
-        $('.range1').pickadate({
+          $('.range1').pickadate({
           // Escape any “rule” characters with an exclamation mark (!).
-          format: 'yyyy-mm',
-          viewMode: "months",
-    minViewMode: "months"
+          format: 'yyyy-mm'
           })
       </script>
 </html>
